@@ -3,6 +3,7 @@
 // let gameover = new Audio("gameover.mp3");
 let turn = "X";
 let isgameover = false;
+let boxesSelected = 0;
 
 const changeTurn = ()=>{
     return turn === "X"?"O":"X";
@@ -38,11 +39,18 @@ boxes.forEach(box=>{
     const boxtext = box.querySelector(".boxtext");
     box.addEventListener("click",()=>{
         if(boxtext.innerText==""){
+            console.log(boxesSelected);
+            boxesSelected++;
             boxtext.innerText = turn;
             turn  = changeTurn();
             checkWin();
             if(!isgameover){
                 document.querySelector(".info").innerText = "Turn for "+turn;
+            }
+            if(boxesSelected === 9){
+                document.querySelector(".popup-container").style.visibility = "visible";
+                document.querySelector(".popup-container").style.opacity = "1";
+                document.querySelector(".popup").style.transform = "translateY(0%)";
             }
         }
     });
@@ -55,6 +63,7 @@ reset.addEventListener("click",()=>{
     });
     turn = "X";
     isgameover = false;
+    boxesSelected = 0;
     document.querySelector(".line").style.width = "0%";
     document.querySelector(".info").innerText = "Turn for "+turn;
     document.querySelector(".popup").style.transform = "translateY(100%)";
